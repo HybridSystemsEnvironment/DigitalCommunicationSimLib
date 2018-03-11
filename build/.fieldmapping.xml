@@ -102,20 +102,20 @@
     </list>
   </entry>
   <entry>
-    <string>edu.ucsc.cross.hse.model.network.ideal.IdealNetworkState</string>
-    <list>
-      <field>
-        <name>packetsTransmitted</name>
-        <clazz>edu.ucsc.cross.hse.model.network.ideal.IdealNetworkState</clazz>
-      </field>
-    </list>
-  </entry>
-  <entry>
     <string>edu.ucsc.cross.hse.model.network.bandwidth.v2.BandwidthNetworkState</string>
     <list>
       <field>
         <name>packetsInTransmission</name>
         <clazz>edu.ucsc.cross.hse.model.network.bandwidth.v2.BandwidthNetworkState</clazz>
+      </field>
+    </list>
+  </entry>
+  <entry>
+    <string>edu.ucsc.cross.hse.model.network.ideal.IdealNetworkState</string>
+    <list>
+      <field>
+        <name>packetsTransmitted</name>
+        <clazz>edu.ucsc.cross.hse.model.network.ideal.IdealNetworkState</clazz>
       </field>
     </list>
   </entry>

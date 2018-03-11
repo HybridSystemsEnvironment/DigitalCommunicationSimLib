@@ -41,7 +41,7 @@ public class TestNetwork
 	public static void main(String args[])
 	{
 		Console.getSettings().printIntegratorExceptions = false;
-		//ionAndNotPlot();
+		ionAndNotPlot();
 		ionAndNotPlotIdeal();
 	}
 
