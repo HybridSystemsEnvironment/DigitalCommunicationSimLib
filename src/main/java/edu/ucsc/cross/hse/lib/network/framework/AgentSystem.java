@@ -74,6 +74,8 @@ public class AgentSystem extends HybridSystem<SpammerState>
 			double size = arg0.sizeReceived;
 			for (Packet p : packetsReceived)
 			{
+				storage.write(p.getPayload());
+
 				size += p.getTotalSize();
 			}
 			arg1.sizeReceived = size;
