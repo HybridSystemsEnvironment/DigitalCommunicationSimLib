@@ -1,7 +1,5 @@
 package edu.ucsc.cross.hse.lib.network.framework;
 
-import java.io.File;
-
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYDataset;
@@ -42,7 +40,7 @@ public class TestNetwork
 	{
 		Console.getSettings().printIntegratorExceptions = false;
 		ionAndNotPlot();
-		ionAndNotPlotIdeal();
+		//ionAndNotPlotIdeal();
 	}
 
 	public static void ionAndPlot()
@@ -65,7 +63,7 @@ public class TestNetwork
 		IdealNetwork net = new IdealNetwork();
 		//DelayedNetworkSystem net = new DelayedNetworkSystem(new DelayedNetworkState(),
 		//	new DelayedNetworkParameters(.5, 1.5);
-		SystemSet agents = createAgents(net, 15, 1.2, 1.5, 50, 100);
+		SystemSet agents = createAgents(net, 15, 1.2, 1.5, 125, 131);
 		connectRandomly(net, 3, 8);
 		env.getSystems().add(agents);
 		env.getSystems().add(net);
@@ -87,35 +85,36 @@ public class TestNetwork
 		// initialize environment settings 
 		EnvironmentSettings settings = new EnvironmentSettings();
 		settings.odeMaximumStepSize = .0005;
-		settings.odeMinimumStepSize = .000005;
+		settings.odeMinimumStepSize = .00000005;
 		settings.eventHandlerMaximumCheckInterval = .00005;
 		// initialize the execution parameters 
-		ExecutionParameters parameters = new ExecutionParameters(22.0, 53320, .1);
+		ExecutionParameters parameters = new ExecutionParameters(35.0, 53320, .5);
 		// initialize the node parameters
 
 		// create environment
 		HSEnvironment env = HSEnvironment.create(systems, parameters, settings);
-		//BandwidthNetwork netb = new BandwidthNetwork(new BandwidthNetworkState(),
-		//new BandwidthParameters(1000, BandwidthConfiguration.CONSTANT));
-		IdealNetwork net = new IdealNetwork();
-		//		//DelayedNetworkSystem net = new DelayedNetworkSystem(new DelayedNetworkState(),
-		//		//	new DelayedNetworkParameters(.5, 1.5);
-		//		SystemSet agents = createAgents(net, 15, .4, .7, 125, 1100);
-		//		connectRandomly(net, 7, 8);
-		//		env.getSystems().add(agents);
-		//		env.getSystems().add(net);
+		//BandwidthNetwork net = new BandwidthNetwork(new BandwidthNetworkSta
+		// create environment
+		BandwidthNetwork netb = new BandwidthNetwork(new BandwidthNetworkState(),
+		new BandwidthParameters(1000, BandwidthConfiguration.CONSTANT));
+		//		  DelayedNetworkSystem net = new DelayedNetworkSystem(new DelayedNetworkState(),
+		//		  	new DelayedNetworkParameters(.5, 1.5);
+		//SystemSet agents = createAgents(net, 15, .4, .7, 125, 1100);
+
 		//
 		//		nodeChart3(env.run(), "Ideal Network").display();//.exportToFile(FileBrowser.save(), GraphicFormat.EPS);//.display();
 		env = HSEnvironment.create(systems, parameters, settings);
-		SystemSet agents = createAgents(net, 15, .4, .7, 1125, 11100);
-		connectRandomly(net, 3, 8);
+		SystemSet agents = createAgents(netb, 15, .2, .5, 42, 60);
+
+		connectRandomly(netb, 3, 8);
 		//	
 		env.getSystems().add(agents);
-		env.getSystems().add(net);
+		env.getSystems().add(netb);
 
-		nodeChart3(env.run(), "Ideal Network (Infinite Bandwidth)").exportToFile(new File("~/Desktop/netnet/ideal.eps"),
-		GraphicFormat.EPS);
+		//nodeChart3(env.run(), "Realistic Network (" + 1000 + " bytes/sec Bandwidth)").display();//.exportToFile(new File("~/Desktop/netnet/ideal.eps"),
+		//GraphicFormat.EPS);
 		//storageChart(env.getTrajectories());
+		nodeChart3(env.run(), "Ideal Network (Infinite Bandwidth)").exportToFile(FileBrowser.save(), GraphicFormat.EPS);
 
 		//	System.out.println(XMLParser.serializeObject(s));
 
@@ -138,25 +137,22 @@ public class TestNetwork
 		HSEnvironment env = HSEnvironment.create(systems, parameters, settings);
 		BandwidthNetwork netb = new BandwidthNetwork(new BandwidthNetworkState(),
 		new BandwidthParameters(1000, BandwidthConfiguration.CONSTANT));
-		//		IdealNetwork net = new IdealNetwork();
+		IdealNetwork net = new IdealNetwork();
 		//		//DelayedNetworkSystem net = new DelayedNetworkSystem(new DelayedNetworkState(),
 		//		//	new DelayedNetworkParameters(.5, 1.5);
-		//		SystemSet agents = createAgents(net, 15, .4, .7, 125, 1100);
-		//		connectRandomly(net, 7, 8);
-		//		env.getSystems().add(agents);
-		//		env.getSystems().add(net);
+
 		//
 		//		nodeChart3(env.run(), "Ideal Network").display();//.exportToFile(FileBrowser.save(), GraphicFormat.EPS);//.display();
 		env = HSEnvironment.create(systems, parameters, settings);
-		SystemSet agents = createAgents(netb, 15, .4, .7, 1125, 11100);
-		connectRandomly(netb, 3, 8);
+		systems = createAgents(net, 15, .2, .5, 42, 60);
+		connectRandomly(net, 3, 8);
 		//	
-		env.getSystems().add(agents);
-		env.getSystems().add(netb);
+		env.getSystems().add(systems);
+		env.getSystems().add(net);
 
-		nodeChart3(env.run(), "Realistic Network (" + 1000 + " bytes/sec Bandwidth)").exportToFile(FileBrowser.save(),
-		GraphicFormat.EPS);
-		//storageChart(env.getTrajectories());
+		//nodeChart3(env.run(), "Ideal Network (Infinite Bandwidth)").display();//
+		nodeChart3(env.run(), "Ideal Network (Infinite Bandwidth)").exportToFile(FileBrowser.save(), GraphicFormat.EPS);
+		storageChart(env.getTrajectories());
 
 		//	System.out.println(XMLParser.serializeObject(s));
 
@@ -168,7 +164,7 @@ public class TestNetwork
 		SystemSet set = new SystemSet();
 		for (int i = 0; i < quantity; i++)
 		{
-			StorageParameters storParam = new StorageParameters(10000, 10000);
+			StorageParameters storParam = new StorageParameters(100, 100, 1000);
 			StorageSystem store = new StorageSystem(new StorageState(), storParam, new FIFOStorageController());
 			AgentSystem agent = new AgentSystem(new SpammerState(0.0),
 			new SimulatedAgentParameters(min_send, max_send, min_size, max_size), new NetworkNode(net),
@@ -258,17 +254,14 @@ public class TestNetwork
 		XYDataset dataset2 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "sizeReceived");
 		JFreeChart plot2 = ChartUtils.createXYChart(solution, dataset2, null, null, ChartType.LINE);
 		ChartPanel panel2 = ChartUtils.createPanel(plot2);
-		XYDataset dataset3 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "dataToTransfer");
-		JFreeChart plot3 = ChartUtils.createXYChart(solution, dataset3, null, null, ChartType.LINE);
-		ChartPanel panel3 = ChartUtils.createPanel(plot3);
+
 		ChartUtils.configureLabels(panel, "Time (sec)", "Sent Size", null, false);
 		ChartUtils.configureLabels(panel2, "Time (sec)", "Received Size", null, false);
-		ChartUtils.configureLabels(panel3, "Time (sec)", "Data to Write", null, false);
 
 		Figure figure = new Figure(1000, 1500);
 		figure.addComponent(0, 0, panel);
 		figure.addComponent(0, 1, panel2);
-		figure.addComponent(0, 2, panel3);
+
 		figure.getTitle().setText(title);
 		return figure;
 	}

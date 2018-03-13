@@ -11,7 +11,7 @@ import edu.ucsc.cross.hse.model.data.objects.SimulatedData;
 import edu.ucsc.cross.hse.model.data.packet.BasicPacket;
 import edu.ucsc.cross.hse.model.data.packet.Packet;
 import edu.ucsc.cross.hse.model.data.packet.header.MinimalHeader;
-import edu.ucsc.cross.hse.model.storage.StorageInterface;
+import edu.ucsc.cross.hse.model.storage.StorageDevice;
 
 public class AgentSystem extends HybridSystem<SpammerState>
 {
@@ -19,9 +19,9 @@ public class AgentSystem extends HybridSystem<SpammerState>
 	public Node localNode;
 	public SimulatedAgentParameters params;
 	public ArrayList<Packet> packetsReceived = new ArrayList<Packet>();
-	public StorageInterface storage;
+	public StorageDevice storage;
 
-	public AgentSystem(SpammerState state, SimulatedAgentParameters params, Node localNode, StorageInterface storage)
+	public AgentSystem(SpammerState state, SimulatedAgentParameters params, Node localNode, StorageDevice storage)
 	{
 		super(state, params);
 		this.localNode = localNode;
